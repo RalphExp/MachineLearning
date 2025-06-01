@@ -35,6 +35,3 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
         c=colors[idx],
         marker=markers[idx],
         label=f'Class {cl}', edgecolor='black')
-
-if __name__ == '__main__':
-    pass
