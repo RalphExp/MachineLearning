@@ -1,7 +1,7 @@
 import numpy as np
 
 class Perceptron:
-    """Perceptron classifier.
+    """ Perceptron classifier.
     Parameters
     ------------
     eta : float
@@ -67,7 +67,7 @@ class Perceptron:
     
 
 class AdalineGD:
-    """ADAptive Linear Neuron classifier.
+    """ ADAptive Linear Neuron classifier.
     Parameters
     ------------
     eta : float
