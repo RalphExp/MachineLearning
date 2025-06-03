@@ -90,12 +90,25 @@ class SoftmaxRegressionGD:
         self.random_state = random_state
 
     def _softmax(self, z):
+        """ softmax function
+        Parameters
+        ----------
+        z: shape [n_samples, n_classes]
+        """
+
+        # substract the maximum, avoid overflow
         z = z - np.max(z, axis=1, keepdims=True)
         exp_z = np.exp(z)
+
+        # sum across each line
         return exp_z / np.sum(exp_z, axis=1, keepdims=True)
 
     def _cross_entropy_loss(self, y_true, y_prob):
+        # cross entroy loss function
+        # see DLFC chapter5 p161 (5.79)
+
         # avoid log(0)
+        # confine the y_prob to the interval (1e-10, 1)
         y_prob = np.clip(y_prob, 1e-10, 1.0)
         return -np.mean(np.sum(y_true * np.log(y_prob), axis=1))
 
@@ -105,6 +118,10 @@ class SoftmaxRegressionGD:
         n_classes = len(self.classes_)
 
         # One-hot encode y
+        # y_encoded becomes like
+        # [[0, ..., 1, ..., 0],
+        #  [0, ..., 1, ..., 0],
+        #  ... ]
         y_encoded = np.eye(n_classes)[y]
 
         # initialization
@@ -119,6 +136,8 @@ class SoftmaxRegressionGD:
 
             # compute the gradient
             errors = y_prob - y_encoded     # shape: (n_samples, n_classes)
+
+            # DLFC chapter5 p162 (5.81)
             grad_w = (errors.T.dot(X)) / n_samples
             grad_b = errors.mean(axis=0)
 
@@ -133,10 +152,14 @@ class SoftmaxRegressionGD:
         return self
 
     def predict(self, X):
+        """ predict which class X belongs to
+        """
         z = X.dot(self.w_.T) + self.b_
         y_prob = self._softmax(z)
         return np.argmax(y_prob, axis=1)
 
     def predict_proba(self, X):
+        """ compute the probability of each class
+        """
         z = X.dot(self.w_.T) + self.b_
         return self._softmax(z)
