@@ -212,6 +212,7 @@ class AdalineSGD:
     def _initialize_weights(self, m):
         """Initialize weights to small random numbers"""
         self.rgen = np.random.RandomState(self.random_state)
+        # line vector
         self.w_ = self.rgen.normal(loc=0.0, scale=0.01, size=m)
         self.b_ = np.float_(0.)
         self.w_initialized = True

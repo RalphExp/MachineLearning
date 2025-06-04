@@ -51,9 +51,9 @@ class LogisticRegressionGD:
         for i in range(self.n_iter):
             net_input = self.net_input(X)
             output = self.activation(net_input)
-            errors = (y - output)
-            self.w_ += self.eta * 2.0 * X.T.dot(errors) / X.shape[0]
-            self.b_ += self.eta * 2.0 * errors.mean()
+            errors = output - y
+            self.w_ -= self.eta * X.T.dot(errors) / X.shape[0]
+            self.b_ -= self.eta * errors.mean()
             loss = (-y.dot(np.log(output)) - ((1 - y).dot(np.log(1 - output))) / X.shape[0])
             self.losses_.append(loss)
         return self
