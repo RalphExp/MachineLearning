@@ -3,6 +3,7 @@ from collections import Counter
 
 class KNNClassifier:
     """ Hand on KNN Classifier """
+
     def __init__(self, k=3):
         self.k = k
         self.X_train = None
